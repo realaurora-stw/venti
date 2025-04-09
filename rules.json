@@ -1,1 +1,228 @@
-
+{
+  "rules": {
+    "title": "Rules & Guidelines",
+    "sections": [
+      {
+        "heading": "Cafe",
+        "list": [
+          "Trolling will result in consequences depending on the severity.",
+          "Exploiting will be an instant banishment without an option of appealing.",
+          "Bypassing the filter will lead to an instant banishment.",
+          "Everyone in game is to be treated with respect.",
+          "Sharing or asking for any personal information about yourself or others will not be tolerated.",
+          "Do not troll at any other business, regardless if they're affiliated with Venti.",
+          "Raiding will lead to being permanently banned from the game.",
+          "Advertising a separate group/game/other is not tolerated (talking about other groups in a way that isn't advertising is perfectly fine).",
+          "Spamming will lead to a removal from the server and is in no way allowed.",
+          "Refrain from trash talking other groups or other people.",
+          "Raiding will result in an instant banishment.",
+          "Follow Roblox's Terms of Use."
+        ]
+      },
+      {
+        "heading": "Private Server Rules & Exceptions (Cafe)",
+        "list": [
+          "You are not obligated to attend to any duty in a private server.",
+          "You may do as you wish in a private server within moderation.",
+          "Exploiting is still strictly prohibited.",
+          "Bypassing is still strictly prohibited.",
+          "Do not share or ask for personal information.",
+          "Follow Roblox's Terms of Use."
+        ]
+      }
+    ]
+  },
+  "otherInfo": {
+    "cards": [
+      {
+        "title": "Recording Policy",
+        "content": [
+          { "type": "paragraph", "text": "<strong>Cafe</strong>" },
+          { "type": "paragraph", "text": "There are absolutely no restrictions as to what you can record at the cafe." },
+          { "type": "paragraph", "text": "<strong>Training Center</strong>" },
+          { "type": "paragraph", "text": "There are absolutely no restrictions as to what you can record at the Training Center." },
+          { "type": "paragraph", "text": "<strong>Application Center</strong>" },
+          { "type": "paragraph", "text": "Do not record yourself taking an application." }
+        ]
+      },
+      {
+        "title": "Non-Staff",
+        "content": [
+          { "type": "paragraph", "text": "<strong>Customer</strong>" },
+          { "type": "paragraph", "text": "Member of the group. This rank offers no extra permissions other than being able to apply for a job." },
+          { "type": "paragraph", "text": "<strong>Noted Customer</strong>" },
+          { "type": "paragraph", "text": "This rank consists of the top three donors on the donation board, investors, or former high ranks." },
+          { "type": "paragraph", "text": "<strong>Allied Representative</strong>" },
+          { "type": "paragraph", "text": "This rank consists of individuals who have been selected as representatives from each of our affiliates. If you are an official representative for Venti, get in contact with an HR about receiving this rank." }
+        ]
+      },
+      {
+        "title": "Low Rank (LR)",
+        "content": [
+          { "type": "paragraph", "text": "<strong>Trainee</strong>" },
+          { "type": "paragraph", "text": "Users in this rank have passed their application and are able to attend training sessions. Trainees cannot work at the cafe." },
+          { "type": "paragraph", "text": "<strong>Junior Barista</strong>" },
+          { "type": "paragraph", "text": "Users in this rank have passed their training from Trainee to Junior Barista. Junior Baristas may work at the cafe." },
+          { "type": "paragraph", "text": "<strong>Barista</strong>" },
+          { "type": "paragraph", "text": "Users in this rank have passed their training from Junior Barista to Barista. Baristas may work at the cafe." },
+          { "type": "paragraph", "text": "<strong>Experienced Barista</strong>" },
+          { "type": "paragraph", "text": "Users in this rank have passed their training from Barista to Experienced Barista. This is the last training they have to go through. Experienced Baristas must work actively for a minimum of 2 weeks at the cafe to be eligible for a promotion." }
+        ]
+      },
+      {
+        "title": "Middle Rank (MR)",
+        "content": [
+          { "type": "paragraph", "text": "<strong>Employee Assistant</strong>" },
+          { "type": "paragraph", "text": "Users in this rank have worked hard as an Experienced Barista and have been promoted by a High Rank. Employee Assistants have been granted moderator permissions at all of our games. Their responsibilities consist of supervising and managing the cafe, and assisting at sessions." },
+          { "type": "paragraph", "text": "<strong>Supervisor</strong>" },
+          { "type": "paragraph", "text": "Users in this rank have worked hard as an Employee Assistant and have been promoted by a High Rank. Supervisors still have moderator permissions at all of our games. Their responsibilities are similar to Employee Assistant, except they may now host sessions." },
+          { "type": "paragraph", "text": "<strong>Manager</strong>" },
+          { "type": "paragraph", "text": "Users in this rank have worked hard as a Supervisor and have been promoted by a High Rank. Managers still have moderator permissions at all of our games. Their responsibilities are equivalent to Supervisor." },
+          { "type": "paragraph", "text": "<strong>Shift Leader</strong>" },
+          { "type": "paragraph", "text": "Users in this rank have worked hard as a Manager and have been promoted by a High Rank. Shift Leaders still have moderator permissions at all of our games. Their responsibilities are equivalent to Manager." }
+        ]
+      },
+      {
+        "title": "Developer",
+        "content": [
+          { "type": "paragraph", "text": "<strong>Contractor</strong>" },
+          { "type": "paragraph", "text": "Part-time developer(s) for Venti. Individuals in this rank only work when commissioned by the group." },
+          { "type": "paragraph", "text": "<strong>Chief Development Officer</strong>" },
+          { "type": "paragraph", "text": "Full-time developer(s) for Venti. Individuals in this rank are constantly working on updates and advancing our builds and systems at any given time." }
+        ]
+      },
+      {
+        "title": "High Rank (HR)",
+        "content": [
+          { "type": "paragraph", "text": "<strong>Chief Staff Officer</strong>" },
+          { "type": "paragraph", "text": "Users in this rank have worked extremely hard as a Shift Leader and have been promoted by a Super Rank. Chief Staff Officers have been granted administrative permissions at all of our games. Their responsibilities are similar to Shift Leader, except they now have the ability to promote and demote Middle Ranks and below." },
+          { "type": "paragraph", "text": "<strong>Chief Operating Officer</strong>" },
+          { "type": "paragraph", "text": "Users in this rank have worked extremely hard as a Chief Staff Officer and have been promoted by a Super Rank. Chief Operating Officers still have administrative permissions at all of our games. Their responsibilities are equivalent to Chief Staff Officer." },
+          { "type": "paragraph", "text": "<strong>Chief Administrative Officer</strong>" },
+          { "type": "paragraph", "text": "Users in this rank have worked extremely hard as a Chief Operating Officer and have been promoted by a Super Rank. Chief Administrative Officers still have administrative permissions at all of our games. Their responsibilities are equivalent to Chief Operating Officer." },
+          { "type": "paragraph", "text": "<strong>Board of Directors (3)</strong>" },
+          { "type": "paragraph", "text": "This rank consists of the three directors of each department. They have been promoted by a Super Rank. Board of Directors have been granted super administrative permissions at all of our games. Their responsibilities are similar to Chief Administrative Officer, except they now have a department to lead.<br>Users in this rank:<br>elsrify 169 - Director of Relations<br>gabiscatboy 148 - Director of Staffing<br>bl6ker 163 - Director of Events" }
+        ]
+      },
+      {
+        "title": "Super Rank (SR)",
+        "content": [
+          { "type": "paragraph", "text": "<strong>Vice President (3)</strong>" },
+          { "type": "paragraph", "text": "This rank consists of 3 of the department overseers. This rank is very exclusive, and users in this rank have been promoted by the President or Chairman. They still have super administrative permissions at all of our games. Their permissions are similar to Board of Directors, except they may now promote and demote High Ranks and below.<br>Users in this rank:<br>anxyze 233 - Overseer of Relations<br>xsEmma 190 - Overseer of Staffing<br>l6hvv 237 - Overseer of Events" },
+          { "type": "paragraph", "text": "<strong>President (1)</strong>" },
+          { "type": "paragraph", "text": "Co-Founder of Venti. This rank is not achievable.<br>User in this rank:<br>armsIength 309" },
+          { "type": "paragraph", "text": "<strong>Chairman (1)</strong>" },
+          { "type": "paragraph", "text": "Founder of Venti. This rank is not achievable.<br>User in this rank:<br>Vitalious 2.5k - Head of Development" }
+        ]
+      },
+      {
+        "title": "Alliance Information + Application",
+        "content": [
+          { "type": "heading", "level": 3, "text": "Requirements" },
+          {
+            "type": "list",
+            "items": [
+              "Must have a minimum of 15,000 non-botted members.",
+              "Good activity (minimum of 5-10 players daily).",
+              "Group may not use the name and assets of a real life brand.",
+              "Professional and communicative staff.",
+              "Must be a fully functioning group with a complete game, training center, and other assets deemed necessary for daily operation.",
+              "Must have over 15 different ranks.",
+              "Must be a business (please see Business Information section below).",
+              "Must have a communications server.",
+              "Must maintain good moderation within the group's games and communications server.",
+              "Must not sell any game pass that offers a moderative/administrative position or grants access to administrative abilities."
+            ]
+          },
+          { "type": "heading", "level": 3, "text": "Business Information" },
+          { "type": "paragraph", "text": "Types of groups we ally with include, but are not limited to:" },
+          {
+            "type": "list",
+            "items": [
+              "Cafes",
+              "Restaurants",
+              "Hotels",
+              "Clothing",
+              "Smoothie/Juice Bars",
+              "Salons",
+              "Dentistry"
+            ]
+          },
+          { "type": "paragraph", "text": "Types of groups we do not ally with include, but are not limited to:" },
+          {
+            "type": "list",
+            "items": [
+              "Gameshow groups",
+              "School-based groups",
+              "Theme/Amusement park groups",
+              "Studios/Clubs"
+            ]
+          },
+          { "type": "heading", "level": 3, "text": "Application" },
+          {
+            "type": "list",
+            "items": [
+              "What is the name of your business (please provide links to Roblox group and communications server)?",
+              "Why do you wish to form an alliance with us?",
+              "How can your group benefit Venti?",
+              "How could Venti benefit your group?",
+              "How many members does your group currently hold?",
+              "Do you understand that under the circumstance where your group falls in violation of our rules & guidelines or no longer meets our requirements, we have the right to terminate this alliance?"
+            ]
+          },
+          { "type": "paragraph", "text": "It is required that your application is in Google Docs. To submit your application, send it in to our Director of Relations, elsrify 169, or any of our Relations Department members." }
+        ]
+      },
+      {
+        "title": "Ban Appeal Information",
+        "content": [
+          { "type": "paragraph", "text": "<strong>Permanent Banishment (Universal)</strong>" },
+          { "type": "paragraph", "text": "After 30 days have passed since your ban, you may create a ticket or get in contact with a Chief Administrative Officer+ to appeal your ban." },
+          { "type": "paragraph", "text": "<strong>Termination</strong>" },
+          { "type": "paragraph", "text": "After 30 days have passed since your termination, you may create a ticket or get in contact with a Chief Administrative Officer+ to appeal your termination." },
+          { "type": "paragraph", "text": "<strong>Blacklist</strong>" },
+          { "type": "paragraph", "text": "Blacklists are permanent and cannot be retracted unless deemed invalid." }
+        ]
+      },
+      {
+        "title": "Frequently Asked Questions (FAQ)",
+        "content": [
+          { "type": "paragraph", "text": "<strong>Do you have a session schedule?</strong>" },
+          { "type": "paragraph", "text": "Yes! Check the description of the Training Center 1.1k." },
+          { "type": "paragraph", "text": "<strong>How do I get a job?</strong>" },
+          { "type": "paragraph", "text": "As a Customer, you may apply at the Application Center 1.4k." },
+          { "type": "paragraph", "text": "<strong>When is the Application Center open?</strong>" },
+          { "type": "paragraph", "text": "The Application Center 1.4k is always open." },
+          { "type": "paragraph", "text": "<strong>How do I get to Experienced Barista?</strong>" },
+          { "type": "paragraph", "text": "You must attend and pass three training sessions at the Training Center 1.1k." },
+          { "type": "paragraph", "text": "<strong>How do I get promoted to Employee Assistant?</strong>" },
+          { "type": "paragraph", "text": "Review the Experienced Barista Promotion Guide." },
+          { "type": "paragraph", "text": "<strong>How can I help support Venti?</strong>" },
+          { "type": "paragraph", "text": "Simply play our game or even get a job! If you're feeling extra nice or want some awesome perks, donate at the donation board, tip, or buy some of our game passes 318!" }
+        ]
+      },
+      {
+        "title": "Experienced Barista Promotion Guide",
+        "content": [
+          { "type": "heading", "level": 3, "text": "Requirements & Guidelines" },
+          {
+            "type": "list",
+            "items": [
+              "You must be in our Discord server.",
+              "You must verify your Roblox account in our Discord server.",
+              "You must not have safechat on Roblox.",
+              "You must be at least 13 years old.",
+              "You must be an Experienced Barista for a minimum of 2 weeks.",
+              "You must actively work for around 2 weeks.",
+              "Aim for 30 minutes to 1 hour working at the cafe every day. Do not let Venti take over your life.",
+              "Maintain healthy community engagement in our Discord server.",
+              "Do not hint or ask for promotions.",
+              "While use of grammar and professionalism is not required, it will make you more noticeable to our HRs.",
+              "Do not ask other people if they want a drink. Stay at your register and let the customers come to you!"
+            ]
+          }
+        ]
+      }
+    ]
+  }
+}
