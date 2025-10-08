@@ -1,0 +1,1253 @@
+<!DOCTYPE html><html lang="en"><head><meta name="x-poe-datastore-behavior" content="local_only"><meta http-equiv="Content-Security-Policy" content="default-src 'self' 'unsafe-inline' 'unsafe-eval' data: blob: https://cdnjs.cloudflare.com https://cdn.jsdelivr.net https://code.jquery.com https://unpkg.com https://d3js.org https://threejs.org https://cdn.plot.ly https://stackpath.bootstrapcdn.com https://maps.googleapis.com https://cdn.tailwindcss.com https://ajax.googleapis.com https://kit.fontawesome.com https://cdn.datatables.net https://maxcdn.bootstrapcdn.com https://code.highcharts.com https://tako-static-assets-production.s3.amazonaws.com https://www.youtube.com https://fonts.googleapis.com https://fonts.gstatic.com https://pfst.cf2.poecdn.net https://puc.poecdn.net https://i.imgur.com https://wikimedia.org https://*.icons8.com https://*.giphy.com https://picsum.photos https://images.unsplash.com; frame-src 'self' https://www.youtube.com https://trytako.com; child-src 'self'; manifest-src 'self'; worker-src 'self'; upgrade-insecure-requests; block-all-mixed-content;">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Venti Café</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&amp;display=swap" rel="stylesheet">
+  <style>
+    :root {
+      color-scheme: dark;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      background: #000000;
+      color: #FFFFFF;
+      font-family: 'Poppins', sans-serif;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 1rem;
+      position: relative;
+      overflow-x: hidden;
+    }
+
+    .container {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+      gap: 1rem;
+      width: 100%;
+      max-width: 800px;
+    }
+
+    .btn {
+      background: #0A0A0A;
+      border: 1px solid #1A1A1A;
+      color: #FFFFFF;
+      padding: 1.5rem 0.5rem;
+      border-radius: 24px;
+      font-size: 1.3rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      aspect-ratio: 1;
+      font-family: 'Poppins', sans-serif;
+    }
+
+    .btn:hover {
+      background: #111111;
+      transform: translateY(-3px);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+    }
+
+    .btn:active {
+      transform: scale(0.96);
+      background: #0D0D0D;
+    }
+
+    .ripple {
+      position: absolute;
+      background: rgba(255, 255, 255, 0.2);
+      border-radius: 50%;
+      transform: translate(-50%, -50%) scale(0);
+      animation: ripple 3s ease-out;
+      pointer-events: none;
+      width: 40px;
+      height: 40px;
+    }
+
+    @keyframes ripple {
+      to {
+        transform: translate(-50%, -50%) scale(25);
+        opacity: 0;
+      }
+    }
+
+    .btn span {
+      font-size: 1.8rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .notes-btn {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      font-family: 'Poppins', sans-serif;
+      color: #888888;
+      background: none;
+      border: none;
+      font-size: 1rem;
+      cursor: pointer;
+      z-index: 998;
+      padding: 8px 12px;
+      border-radius: 8px;
+      transition: background-color 0.3s;
+    }
+
+    .notes-btn:hover {
+      background-color: rgba(255, 255, 255, 0.1);
+    }
+
+    .sidebar-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.5);
+      z-index: 998;
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 0.18s ease-in-out;
+    }
+
+    .sidebar-overlay.open {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .notes-sidebar {
+      position: fixed;
+      top: 0;
+      right: -350px;
+      width: 350px;
+      height: 100vh;
+      background-color: #121212;
+      z-index: 999;
+      transition: right 0.3s ease-in-out;
+      display: flex;
+      flex-direction: column;
+      border-left: 1px solid #2a2a2a;
+      box-shadow: -5px 0 15px rgba(0, 0, 0, 0.5);
+    }
+
+    .notes-sidebar.open {
+      right: 0;
+    }
+
+    .notes-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 15px;
+      border-bottom: 1px solid #2a2a2a;
+    }
+
+    .notes-title {
+      font-family: 'Poppins', sans-serif;
+      font-weight: 600;
+      color: white;
+      font-size: 1.2rem;
+    }
+
+    .notes-close {
+      font-family: 'Poppins', sans-serif;
+      color: #888888;
+      background: none;
+      border: none;
+      font-size: 1.2rem;
+      font-weight: 600;
+      cursor: pointer;
+      width: 30px;
+      height: 30px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+      transition: background-color 0.3s;
+    }
+
+    .notes-close:hover {
+      background-color: rgba(255, 255, 255, 0.1);
+    }
+
+    .notes-content {
+      flex: 1;
+      padding: 15px;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .notes-textarea {
+      flex: 1;
+      background-color: #1e1e1e;
+      border: 1px solid #333;
+      border-radius: 8px;
+      resize: none;
+      padding: 12px;
+      color: #ffffff;
+      font-family: 'Poppins', sans-serif;
+      font-size: 1rem;
+    }
+
+    .notes-textarea::placeholder {
+      color: #888888;
+      font-family: 'Poppins', sans-serif;
+    }
+
+    .notes-textarea:focus {
+      outline: none;
+      border-color: #5D5CDE;
+    }
+
+    .notesClose {
+      font-family: 'Poppins', sans-serif;
+    }
+
+    .clear-all-btn {
+      background: #181818;
+      color: white;
+      border: none;
+      border-radius: 12px;
+      padding: 10px 20px;
+      font-family: 'Poppins', sans-serif;
+      font-size: 16px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      margin-top: 15px;
+      align-self: center;
+      width: 100%;
+    }
+
+    .clear-all-btn:hover {
+      background: #1d1d1d;
+    }
+
+    .clear-all-btn:active {
+      transform: scale(0.98);
+    }
+
+    @keyframes buttonPulse {
+      0% { transform: scale(1); }
+      50% { transform: scale(0.92); }
+      100% { transform: scale(1); }
+    }
+
+    .ai-barista-btn {
+      position: fixed;
+      bottom: 20px;
+      left: 20px;
+      font-family: 'Poppins', sans-serif;
+      color: #888888;
+      background: none;
+      border: none;
+      font-size: 1rem;
+      cursor: pointer;
+      z-index: 998;
+      padding: 8px 12px;
+      border-radius: 8px;
+      transition: all 0.3s ease;
+    }
+
+    .ai-barista-btn:hover {
+      background-color: rgba(255, 255, 255, 0.1);
+      color: #FFFFFF;
+    }
+
+    .ai-sidebar {
+      position: fixed;
+      top: 0;
+      left: -350px;
+      width: 350px;
+      height: 100vh;
+      background-color: #121212;
+      z-index: 999;
+      transition: left 0.3s ease-in-out;
+      display: flex;
+      flex-direction: column;
+      border-right: 1px solid #2a2a2a;
+      box-shadow: 5px 0 15px rgba(0, 0, 0, 0.5);
+    }
+
+    .ai-sidebar.open {
+      left: 0;
+    }
+
+    .ai-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 15px;
+      border-bottom: 1px solid #2a2a2a;
+    }
+
+    .ai-title {
+      font-family: 'Poppins', sans-serif;
+      font-weight: 600;
+      color: white;
+      font-size: 1.2rem;
+    }
+
+    .ai-close {
+      font-family: 'Poppins', sans-serif;
+      color: #888888;
+      background: none;
+      border: none;
+      font-size: 1.2rem;
+      font-weight: 600;
+      cursor: pointer;
+      width: 30px;
+      height: 30px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+      transition: background-color 0.3s;
+    }
+
+    .ai-close:hover {
+      background-color: rgba(255, 255, 255, 0.1);
+    }
+
+    .ai-content {
+      flex: 1;
+      padding: 15px;
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+      overflow-y: auto;
+    }
+
+    .ai-input-label {
+      font-family: 'Poppins', sans-serif;
+      font-weight: 500;
+      color: #AAAAAA;
+      font-size: 0.9rem;
+    }
+
+    .ai-input {
+      background-color: #1e1e1e;
+      border: 1px solid #333;
+      border-radius: 8px;
+      padding: 12px;
+      color: #ffffff;
+      font-family: 'Poppins', sans-serif;
+      font-size: 16px;
+      width: 100%;
+      resize: none;
+      min-height: 60px;
+    }
+
+    .ai-input::placeholder {
+      color: #888888;
+    }
+
+    .ai-input:focus {
+      outline: none;
+      border-color: #5D5CDE;
+    }
+
+    .ai-response-label {
+      font-family: 'Poppins', sans-serif;
+      font-weight: 500;
+      color: #AAAAAA;
+      font-size: 0.9rem;
+      margin-top: 10px;
+    }
+
+    .ai-response {
+      background-color: #1e1e1e;
+      border: 1px solid #333;
+      border-radius: 8px;
+      padding: 12px;
+      color: #ffffff;
+      font-family: 'Poppins', sans-serif;
+      font-size: 16px;
+      width: 100%;
+      flex: 1;
+      overflow-y: auto;
+      word-wrap: break-word;
+      min-height: 20px;
+      position: relative;
+    }
+
+    .ai-loading {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(30, 30, 30, 0.9);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 8px;
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 0.3s ease;
+    }
+
+    .ai-loading.show {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .ai-loading-spinner {
+      width: 40px;
+      height: 40px;
+      border: 3px solid rgba(255, 255, 255, 0.1);
+      border-radius: 50%;
+      border-top-color: #5D5CDE;
+      animation: spin 1s ease-in-out infinite;
+    }
+
+    @keyframes spin {
+      to {
+        transform: rotate(360deg);
+      }
+    }
+
+    .ai-send-btn {
+      background: #5D5CDE;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      padding: 12px;
+      font-family: 'Poppins', sans-serif;
+      font-size: 16px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      margin-top: 10px;
+    }
+
+    .ai-send-btn:hover {
+      background: #4A49C0;
+      transform: translateY(-2px);
+    }
+
+    .ai-send-btn:active {
+      transform: scale(0.98);
+    }
+
+    .ai-send-btn:disabled {
+      background: #333;
+      color: #666;
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    @keyframes secretButtonScale {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.05); }
+      100% { transform: scale(1); }
+    }
+
+    .active-secret {
+      animation: secretButtonScale 0.4s ease-in-out;
+    }
+
+    @media (max-width: 600px) {
+      .container {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .notes-sidebar {
+        width: 85%;
+        right: -85%;
+      }
+
+      .ai-sidebar {
+        width: 85%;
+        left: -85%;
+      }
+
+      .ai-barista-btn {
+        top: 10px;
+        left: 10px;
+        font-size: 0.9rem;
+      }
+    }
+  </style>
+<script src="https://puc.poecdn.net/authenticated_preview_page/syncedState.bd4eeeb8e8e02052ee92.js"></script></head>
+
+<body>
+  <div class="container">
+    <button class="btn" onclick="showRandomPrompt('greeting')">
+      <span>👋</span>
+      Greeting
+    </button>
+    <button class="btn" onclick="showRandomPrompt('confirm')">
+      <span>✅</span>
+      Confirm
+    </button>
+    <button class="btn" onclick="showRandomPrompt('finish')">
+      <span>✨</span>
+      Finish
+    </button>
+    <button class="btn" onclick="showRandomPrompt('troll')">
+      <span>🤪</span>
+      Troll
+    </button>
+    <button class="btn" onclick="showRandomPrompt('recommend')">
+      <span>💡</span>
+      Idea
+    </button>
+    <button class="btn" onclick="showRandomPrompt('open')">
+      <span>🚪</span>
+      Open
+    </button>
+    <button class="btn" onclick="showRandomPrompt('size')">
+      <span>📏</span>
+      Size
+    </button>
+    <button class="btn" onclick="showRandomPrompt('flavor')">
+      <span>🍓</span>
+      Flavor
+    </button>
+    <button class="btn" onclick="showRandomPrompt('order')">
+      <span>🍪</span>
+      Order
+    </button>
+    <button class="btn" onclick="showRandomPrompt('report')">
+      <span>🚨</span>
+      Report
+    </button>
+    <button class="btn" onclick="showRandomPrompt('specials')">
+      <span>🌻</span>
+      Specials
+    </button>
+    <button id="thanksBtn" class="btn" onclick="showRandomPrompt('thanks')">
+      <span>🖤</span>
+      Thanks
+    </button>
+  </div>
+
+  <div class="sidebar-overlay" id="aiOverlay"></div>
+  <div class="sidebar-overlay" id="notesOverlay"></div>
+
+  <button class="ai-barista-btn" id="aiBtn">🤖 AI Barista</button>
+  <div class="ai-sidebar" id="aiSidebar">
+    <div class="ai-header">
+      <div class="ai-title">AI Barista</div>
+      <button class="ai-close" id="aiClose">X</button>
+    </div>
+    <div class="ai-content">
+      <div class="ai-input-label">Enter Customer Message</div>
+      <textarea class="ai-input" id="aiInput" placeholder="Ask anything"></textarea>
+
+      <button class="ai-send-btn" id="aiSendBtn">Send Message</button>
+
+      <div class="ai-response-label">AI Barista</div>
+      <div class="ai-response" id="aiResponse">
+        <div class="ai-loading" id="aiLoading">
+          <div class="ai-loading-spinner"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <button class="notes-btn" id="notesBtn">📒Notes</button>
+  <div class="notes-sidebar" id="notesSidebar">
+    <div class="notes-header">
+      <div class="notes-title">Notes</div>
+      <button class="notes-close" id="notesClose">X</button>
+    </div>
+    <div class="notes-content">
+      <textarea class="notes-textarea" id="notesTextarea" placeholder="Take notes about the customers order here..."></textarea>
+      <button class="clear-all-btn" id="clearAllBtn">Clear All</button>
+    </div>
+  </div>
+
+  <script>
+    const messages = {
+      greeting: [
+        "🌟 Welcome to Venti Café! Super happy to see you today! How can we make your day brighter with our delicious treats? ✨",
+        "🎉 Hey there, amazing customer! Welcome to the coolest spot in Roblox - Venti Café! What can I get started for you today? 😊",
+        "👋 Well hello there, friendly face! Welcome to Venti Café where your taste buds are about to go on an adventure! 🚀",
+        "💫 Yay! You made it to Venti Café! We've been waiting for awesome customers like you all day! What's your pleasure? 🥤",
+        "🌈 Welcome welcome welcome to Venti Café! Your day is about to get 10x better with our incredible treats! What would you like? 😄",
+        "🎊 Hello and biiiig welcome to our Venti Café family! So excited to serve you today! What delicious treat are you craving? 🍰",
+        "✨ Look who just walked into the best café in town! Welcome to Venti! How can we make your Roblox day spectacular? 🤩",
+        "🌻 Sunshine alert! Your presence just brightened our café! Welcome to Venti! What delicious goodness can I get for you? 😊",
+        "🔆 Hello wonderful person! Welcome to Venti Café where every sip and bite is pure happiness! What can I make for you? 💛",
+        "🎵 *Happy café music plays* Welcome to Venti Café! So thrilled you chose us today! What yummy treat would make you smile? 😁",
+        "🎀 A warm Venti welcome to you! You've just entered the tastiest corner of Roblox! What can we get brewing for you? ☕",
+        "🌟 Woohoo! A new friend at Venti Café! We're all about making your day amazing with delicious treats! What's your pick? 🍦",
+        "🏆 Welcome to the award-winning Venti Café! (Ok we made that up but our treats ARE amazing!) What can I get for you? 😉",
+        "🌠 Star customer alert! Welcome to Venti Café where every customer gets VIP treatment! What would you like to try? 🥳",
+        "🎭 Welcome, welcome! So glad you found your way to Venti Café! Let's make this the best part of your Roblox day! Order away! 🤗",
+        "🌠 OMG! A wild customer appeared! Welcome to the BEST café in all of Roblox! What can I get for your adventure today? 🎮",
+        "🍰 Sweets and treats await! Welcome to Venti Café where your tastebud dreams come true! What's calling your name today? 🧁",
+        "🎪 Step right up to the most magical café in the game! Welcome to Venti! What delicious wonders can I create for you? 🎩",
+        "🚀 Blast off to flavor town! Welcome to Venti Café! Ready to launch your taste adventure with our amazing treats? 👨‍🚀",
+        "💞 Hearts full of joy seeing you here! Welcome to Venti Café where we serve happiness in every cup! What'll it be? 💕",
+        "🌈 Rainbow of flavors awaits! Welcome to Venti where every drink is a pot of gold! What treasure would you like today? 🪙",
+        "🎡 Fun times ahead! Welcome to the most exciting spot in Roblox - Venti Café! What delicious adventure can I start for you? 🎪",
+        "🧋 Bubble tea? Coffee? Cake? All of the above? Welcome to Venti where your wishes come true! What can I get brewing? 🎂",
+        "🍬 Sugar rush headquarters right here! Welcome to Venti Café! What sweet treat can I prepare for your awesome avatar today? 🍭",
+        "🎪 The Greatest Showman has nothing on our drinks! Welcome to Venti Café! What spectacular creation can I make for you? 🎭",
+        "🌸 Spring has sprung at Venti Café! Welcome to our blooming menu of treats! What flowery delight catches your eye today? 🌺",
+        "👑 Royalty has entered the building! Welcome to Venti Café, your majesty! What royal refreshment would please your palate? 👸",
+        "🎵 *Drum roll* Announcing the arrival of our newest VIP customer! Welcome to Venti Café! What's your star order today? 🌟",
+        "🧚 Sprinkling a little magic into your day! Welcome to the enchanted Venti Café! What mystical treats shall I prepare? ✨",
+        "🧠 Brilliant choice coming here! Welcome to Venti Café where your smart decisions are rewarded with yummy treats! What'll it be? 🍨"
+      ],
+      size: [
+        "📏 Let's talk size options! Are we feeling a modest tall, a satisfying grande, or going all out with a spectacular venti today? 🤔",
+        "🔍 Size matters at Venti Café! Would you prefer a tall (perfect starter), grande (just right), or venti (for those EXTRA thirsty days)? 💗",
+        "📐 Time to size up your drink! Tall for a little joy, grande for a happy middle, or venti for maximum enjoyment? Your choice! 🙌",
+        "🧮 Let's do some sizing! Would you like tall (our starter size), grande (our popular pick), or venti (our namesake size)? 😊",
+        "⚖️ Sizing time! Tall for the light sippers, grande for the regulars, or venti for those who believe bigger is ALWAYS better? 🥤",
+        "📊 On a scale of tall to venti, how thirsty are you today? Every size comes with the same amazing Venti Café quality! ✨",
+        "🔎 Tall, grande, or venti? No pressure, but our café name might give you a hint about our favorite size! 😉🥤",
+        "📈 Size selection time! Tall (our starter), grande (our medium), or venti (our SUPER satisfying size)? What matches your mood? 🌈",
+        "📦 Let's pick your perfect portion! Tall for a quick treat, grande for a proper break, or venti for those 'I deserve this' moments! 💕",
+        "🏆 Trophy sizes incoming! Tall (bronze), grande (silver), or venti (the GOLD standard of drink sizes)? You decide! 🌟",
+        "🔧 Engineering the perfect drink starts with size! Tall, grande, or our specialty venti? All amazing choices! 🤩",
+        "🎯 Target size question! Tall (hits the spot), grande (hits the bullseye), or venti (destroys the entire target)? 😁",
+        "📱 Updating your drink size settings! Tall (eco mode), grande (balanced mode), or venti (performance mode)? 🚀",
+        "👾 Level up your drink! Tall (level 1), grande (level 5), or venti (BOSS LEVEL)? Choose your adventure! 🎮",
+        "🧩 Finding your perfect fit! Tall (just enough), grande (just right), or venti (just AMAZING)? Tell us what works for you! ✌️",
+        "🎢 Size adventure time! Tall (gentle hill), grande (exciting loop), or venti (MEGA DROP) for your thirst rollercoaster? 🎡",
+        "🏙️ Building your drink skyline! Tall (cottage), grande (apartment), or venti (SKYSCRAPER)? What's your thirst architecture? 🏗️",
+        "🐾 Sizing up like Goldilocks! Tall (too small?), grande (just right?), or venti (EXTRA right!)? Which fits your fairy tale? 📚",
+        "🔋 Battery level check! Tall (25%), grande (50%), or venti (FULL CHARGE) for your energy needs today? ⚡",
+        "🌡️ Temperature of thirst! Tall (warm), grande (hot), or venti (BOILING)? How intense is your need for refreshment? 🥵",
+        "🥪 Hunger level assessment! Tall (snack), grande (meal), or venti (FEAST) for your satisfaction meter? 🍽️",
+        "🎨 Painting your thirst canvas! Tall (sketch), grande (portrait), or venti (MASTERPIECE)? How artistic is your thirst? 🖌️",
+        "🌱 Growing your satisfaction! Tall (seedling), grande (plant), or venti (MIGHTY OAK)? How big will your happiness grow? 🌳",
+        "🔭 Stargazing sizes! Tall (star), grande (constellation), or venti (ENTIRE GALAXY) of refreshment? 🌌",
+        "⏱️ Timing your enjoyment! Tall (quick sip), grande (coffee break), or venti (EXTENDED VACATION) with your drink? ⌛",
+        "🏕️ Camping trip sizes! Tall (day hike), grande (weekend trip), or venti (WILDERNESS EXPEDITION)? How far are we going? 🏞️",
+        "🎭 Drink drama sizing! Tall (one-act play), grande (feature film), or venti (EPIC TRILOGY) for your refreshment saga? 🎬",
+        "🏄‍♀️ Wave rider sizes! Tall (ripple), grande (wave), or venti (TSUNAMI) of delicious refreshment? How big do you surf? 🌊",
+        "🧠 Brain freeze potential! Tall (tingle), grande (whoa!), or venti (MIND BLOWN) cold drink experience? How brave are you? 🥶",
+        "🎒 Backpack of joy! Tall (pencil case), grande (lunchbox), or venti (ENTIRE BACKPACK) of delicious drink? How much can you carry? 👜"
+      ],
+      flavor: [
+        "🍓 Flavor explosion time! What incredible taste are we adding to your drink today? We've got ALL the options to make it perfect! 🌈",
+        "🧁 Let's make this drink uniquely YOURS! What exciting flavor would you like us to swirl in? Fruity, sweet, or something special? 🤩",
+        "🍧 Time for the fun part - FLAVORS! What delicious taste would make your taste buds do a happy dance today? 💃",
+        "🍯 Flavor magic awaits! What delicious addition can we mix in to create your perfect Venti Café masterpiece? 🪄",
+        "🍭 Sweet tooth alert! What incredible flavor should we add to make your drink something to remember? So many options! 😋",
+        "🍒 Cherry on top time! What amazing flavor will take your drink from great to ABSOLUTELY INCREDIBLE today? 🌟",
+        "🫐 Flavor fusion time! What tasty addition would make your drink perfectly matched to your fantastic personality? ✨",
+        "🍉 Splash of flavor loading! What deliciousness should we add to upgrade your drink to legendary status? 🏆",
+        "🍬 Sugar, spice, and everything nice! What flavor would make your drink the highlight of your Roblox day? 🎀",
+        "🍹 Mixology moment! What flavor profile would complement your chosen size for maximum drink enjoyment? 🌺",
+        "🎨 Time to paint your drink with flavor! What color and taste palette would make your Venti experience complete? 🖌️",
+        "🌶️ Spicing things up! What flavor kick would make your drink perfectly suited to your amazing taste? 👑",
+        "🧪 Flavor alchemy time! What magical taste should we brew into your drink for a potion of pure delight? 🧙‍♂️",
+        "🍦 The cherry on top question - what flavor would make this drink YOUR signature Venti order? 📝",
+        "🍇 Grape-tastic news - it's flavor time! What delicious taste would make your drink absolutely perfect? 🤗",
+        "🔮 Crystal ball says... it's flavor decision time! What magical taste essence should infuse your perfect potion? ✨",
+        "🧠 Brain blast! Time to pick the neural pathway of flavor that will make your taste receptors go WOW! 🤯",
+        "🧁 Cupcake or cookie? Chocolate or vanilla? The flavor universe is YOURS to command for your perfect drink! 🌌",
+        "🍋 Zesty, tangy, sweet, or bold? What flavor personality matches YOUR incredible Roblox character today? 🦸‍♀️",
+        "🌈 Taste the rainbow time! What colorful flavor will paint your Venti experience with delicious memories? 🎨",
+        "🔥 Hot take: flavors make or break the drink! What game-changing addition will take yours to legendary status? 🏆",
+        "🧿 Evil eye ward: pick a flavor so delicious, everyone will be jealous of your perfect Venti creation! 😎",
+        "🧶 Weaving the perfect flavor tapestry! What thread of taste will complete your masterpiece beverage? 🖼️",
+        "🦄 Unicorn-level rarity: your taste preference matters! What magical flavor speaks to your mythical soul? 🌟",
+        "🌋 Flavor eruption imminent! What taste volcano would you like to explode in your amazing Venti drink? 💥",
+        "🧚 Pixie dust of flavors! What magical taste would the fairest fairy sprinkle into your enchanted cup? 🪄",
+        "🌮 Taste-bud fiesta! What flavor party should we throw inside your spectacular Venti creation today? 🥳",
+        "🧙‍♂️ Flavor-mancy: the ancient art of predicting the perfect taste! What does your palate prophecy say? 🔮",
+        "🦜 Polly wants a flavor! What taste paradise would make your inner treasure hunter squawk with joy? 🏝️",
+        "🎭 Dramatic flavor reveal! What taste would make the crowd go wild when they see your perfect drink? 👏"
+      ],
+      confirm: [
+        "🛠️ Order confirmed and locked in! Our flavor wizards are working their magic on your perfect drink right now! ✨",
+        "✅ Green light given! Your amazing order is now in the capable hands of our Venti drink specialists! 🧙‍♂️",
+        "🔄 Processing your order with extra care! The Venti team is crafting your perfect drink with love and precision! 💖",
+        "👩‍🍳 Chef's hat is ON! Your incredible order is being prepared by our expert Venti mixologists as we speak! 🎯",
+        "🎬 Action! Your order is now in production with our dedicated Venti crew working to make it spectacular! 🌟",
+        "📋 Order officially in the system! Our Venti experts are assembling your perfect drink with excitement! 🥳",
+        "🚦 All systems go! Your amazing selection is being prepared with the famous Venti Café attention to detail! 🔍",
+        "🧭 Destination: Deliciousness! Your order is being navigated through our expert preparation process! 🚀",
+        "🏁 And they're off! Our Venti team is racing to prepare your perfect drink with record-breaking quality! 🏆",
+        "📡 Signal received loud and clear! Your delicious order is being transmitted to our master drink creators! 📶",
+        "🔔 Order bell is ringing! Our Venti specialists are jumping into action to craft your perfect beverage! 💫",
+        "🧠 Brilliant choice! Our team is now putting their Venti expertise to work on your spectacular order! 🌈",
+        "📱 Status update: Your amazing order is now being processed by our dedicated Venti craftspeople! 👨‍🎨",
+        "🛎️ Consider it done! Our Venti professionals are now focused on making your drink absolutely perfect! 💯",
+        "🔮 The stars have aligned! Your order is now being transformed into reality by our magical Venti team! ✨",
+        "🦾 Order-making protocols initiated! Our robot baristas are executing precision drink creation sequences! 🤖",
+        "📯 Hear ye, hear ye! The royal order has been proclaimed and our noble baristas are crafting your majesty's drink! 👑",
+        "🧙‍♀️ Abracadabra! Your order wish has been granted! Our magical mixologists are conjuring your perfect potion! 🪄",
+        "🏎️ Vrooooom! Your order is zooming through our high-speed Venti preparation track at maximum velocity! 💨",
+        "👾 Achievement unlocked: Perfect Order Placed! Our game masters are crafting your legendary item as we speak! 🎮",
+        "🎯 Bullseye! Your order has hit the mark and our precision team is assembling your flawless refreshment! 🏹",
+        "🧬 DNA of deliciousness identified! Our flavor scientists are replicating your perfect genetic taste code! 🔬",
+        "🐝 Busy bees activated! Our hardworking Venti hive is buzzing with activity preparing your sweet order! 🍯",
+        "🎨 Masterpiece in progress! Our drink artists have their berets on and are painting your flavor canvas! 🖌️",
+        "🔧 Engineering excellence initiated! Our technical team is constructing your beverage with precision blueprints! 🏗️",
+        "🧵 Stitching together perfection! Our flavor tailors are sewing your custom-designed drink with care! 🧵",
+        "🌱 Cultivating your refreshment! Our flavor farmers are harvesting the freshest ingredients for your order! 🚜",
+        "🎭 The script is set! Our drink directors are now producing your blockbuster beverage with star ingredients! 🎬",
+        "🧪 Chemical reaction beginning! Our potion masters are mixing the elements of your perfect formula! ⚗️",
+        "🌋 Flavor volcano activated! Our geological team is channeling the perfect eruption of taste for your order! 🔥"
+      ],
+      finish: [
+        "🎯 Mission accomplished! Your spectacular drink is ready and looking absolutely AMAZING! Enjoy every sip! 🌟",
+        "✨ The moment you've been waiting for! Your perfect drink has made its grand entrance and is ready to wow you! 🎉",
+        "🏁 Finish line crossed! Your delicious Venti creation is complete and ready for its taste test! Spoiler: It's incredible! 😋",
+        "🎊 Drumroll please... Your spectacular drink is ready to make your taste buds throw a party! Enjoy! 🥳",
+        "🌈 Ta-da! Your perfect drink is ready and looking like a work of art! Can't wait for you to try it! 🖼️",
+        "🔔 Order up! Your amazing Venti creation is ready to transform your day from good to INCREDIBLE! 💫",
+        "🎁 The perfect gift - your drink is ready! Wrapped in Venti quality and tied with a bow of deliciousness! 🎀",
+        "🚀 Blast off to flavor town! Your drink has reached its peak form and is ready for the ultimate taste journey! 👨‍🚀",
+        "💎 Gem of a drink alert! Your order is complete and sparkling with Venti perfection! Enjoy every sip! 💖",
+        "🥇 Gold medal achievement! Your drink is ready and has scored a perfect 10/10 on the deliciousness scale! 🏆",
+        "🎬 And... scene! Your blockbuster drink is ready for its starring role in making your day amazing! 🎭",
+        "📸 Picture perfect! Your Instagram-worthy drink is complete and ready for both photos AND enjoyment! 📱",
+        "🔍 Inspection complete! Your drink has passed all quality tests with flying colors and is ready to go! 🌠",
+        "🧩 Final piece in place! Your perfect Venti puzzle is complete and ready to solve your thirst mystery! 🕵️",
+        "🎵 Sweet symphony of flavors ready! Your drink masterpiece is completed and waiting for its first sip! 🎹",
+        "🏰 Your royal refreshment is served! The kingdom's finest creation awaits your majestic approval! 👑",
+        "🧨 BOOM! Flavor explosion ready for detonation! Your mind-blowing drink has been successfully crafted! 💥",
+        "🌠 Shooting star of taste! Make a wish and take this magical drink that's ready to grant flavor dreams! ✨",
+        "🎭 The grand finale! Your spectacular Venti production is complete and ready for its standing ovation! 👏",
+        "🚁 Air-dropping happiness! Your perfect drink has landed and is ready for immediate enjoyment! 🪂",
+        "🧙‍♂️ The spell is complete! Your enchanted potion has been brewed to perfection and awaits its first taste! 🪄",
+        "🎪 Ladies and gentlemen! The main attraction is ready - your spectacular Venti creation! 🎪",
+        "🦄 Mythical creation complete! Your legendary Venti drink has materialized and is ready for its hero! 🛡️",
+        "🔮 Fortune reveals: Your perfect drink is ready and predicts extreme happiness in your immediate future! 🔍",
+        "🥁 *Dramatic drum roll* Presenting... your absolutely stunning, breathtaking, incredible Venti masterpiece! 🎵",
+        "🏹 Bullseye achieved! Your target flavor profile has been perfectly captured in this completed drink! 🎯",
+        "⏰ Time's up! Your perfect drink couldn't wait any longer to meet its amazing new owner - YOU! 💕",
+        "🎒 Package secured! Your delicious mission objective has been achieved with flying colors! 🪖",
+        "🧬 Genetic perfection! Your custom-crafted flavor DNA sequence has been successfully synthesized! 🧪",
+        "🌅 Sunrise of satisfaction! A new day of deliciousness has dawned with your completed Venti creation! ☀️"
+      ],
+      troll: [
+        "🤪 Oops! Looks like someone's trying to have too much fun! Let's keep it friendly and positive for everyone at Venti Café! 🌈",
+        "👀 I spy with my little eye... someone being a bit silly! Remember, Venti Café is all about good vibes for everyone! 💫",
+        "🎭 Plot twist - we're all here to have a GOOD time! Let's keep Venti Café a happy place where everyone feels welcome! 😊",
+        "✋ Hold up! The Venti vibe check is detecting some trolling! Let's keep our café experience positive for all our friends! 🌟",
+        "🛡️ Shields up! We protect the good vibes at Venti Café! Let's make sure everyone has a fantastic experience here! 💕",
+        "🔄 Let's hit the reset button and start fresh! Venti Café is all about creating happy moments for everyone! 🎀",
+        "🎮 Game mode: Friendly! Remember, we're all here to role-play and have a good time at Venti Café! 🎯",
+        "🌻 Sunshine policy activated! At Venti Café, we grow friendships, not trolling! Keep it sunny, please! ☀️",
+        "🚦 Yellow light warning! Let's steer back toward friendly interaction so everyone can enjoy Venti Café! 🚗",
+        "🧸 Teddy bear reminder that Venti Café is a soft and friendly place for EVERYONE to enjoy! Let's keep it that way! 🤗",
+        "🦄 Magic rule at Venti Café: If you don't have something nice to type, maybe just order a unicorn frappé instead! 🌈",
+        "🎪 This isn't the circus, it's Venti Café! Let's save the silly business and focus on delicious drinks for everyone! 🍹",
+        "🧼 Keeping it clean at Venti Café! Remember, behind every avatar is a real person deserving kindness! 💖",
+        "🌱 Growing a garden of friendship at Venti Café! Trolling is like weeds - not welcome in our pretty space! 🌷",
+        "🕊️ Peace and lattes! That's the Venti Café motto! Let's all contribute to our peaceful coffee community! ☮️",
+        "🦸‍♀️ Superhero mode: Protecting the Venti Café experience for all customers! Let's keep our café safe and fun! 🛡️",
+        "🧊 Cooling down the situation! Venti Café is a chill zone where we all respect each other's Roblox experience! ❄️",
+        "🌈 Rainbow reminder that diversity is celebrated at Venti Café - kindness to EVERYONE is our specialty! 🏳️‍🌈",
+        "🎭 Character break! Remember we're all here to role-play and have fun! Let's keep it positive for everyone! 🎬",
+        "🚧 Construction zone! We're building a better café experience, and trolling doesn't fit the blueprint! 👷‍♀️",
+        "🧠 Brain freeze alert! Let's thaw out and remember why we're all here - to enjoy the Venti Café experience! 🍦",
+        "🎪 Not today, circus tricks! Venti Café is for coffee enjoyment, not clowning around at others' expense! 🎯",
+        "🎮 Game mechanics reminder: Trolling isn't part of the Venti Café gameplay - kindness earns better rewards! 🏆",
+        "🌧️ Rain check on the drama! We only forecast sunny vibes and happy service at Venti Café! ☀️",
+        "🕹️ Player two has entered the game incorrectly! Let's restart with friendly mode activated at Venti Café! 🎮",
+        "🦉 Wise owl says: Trolling makes the whole forest unhappy! Let's keep Venti Café a peaceful woodland for all! 🌳",
+        "🔍 Examining the behavior... Nope, doesn't meet our Venti Café standards! Let's reset to kindness mode! 📊",
+        "🦢 Grace and respect are our specialties! Trolling has no place in our elegant Venti Café atmosphere! 💐",
+        "📚 Café etiquette 101: We treat fellow players with the same respect we'd want in return! Class dismissed! 🎓",
+        "🎁 Unwrapping some advice: The gift of kindness makes Venti Café a better place for everyone! 🎀"
+      ],
+      recommend: [
+        "💡 For a truly spectacular experience, I highly recommend our Venti Oreo milkshake! It's a customer favorite that never disappoints! 🍪",
+        "✨ Looking for something special? Our signature Venti strawberry freakshake topped with whipped cream is absolutely LEGENDARY! 🍓",
+        "🌟 If you're feeling adventurous today, our Venti blueberry ice cream with chocolate drizzle is a magical combination! 🫐",
+        "🧁 Can I suggest our incredible Venti s'mores special? It's like a campfire in a cup - but WAY more delicious! 🔥",
+        "🍦 For a classic that never fails, our Venti vanilla ice cream with rainbow sprinkles brings joy with every spoonful! 🌈",
+        "🎂 May I recommend our famous Venti chocolate cake slice? It's rich, decadent, and absolutely perfect for today! 🍫",
+        "🍓 If you're a fruit lover, our Venti strawberry muffin paired with a matching shake is an experience you won't forget! 💫",
+        "🥤 For the ultimate treat, try our Venti chocolate freakshake topped with a mini muffin - it's Instagram famous! 📸",
+        "🧠 Smart choice alert! Our Venti blueberry muffin is packed with antioxidants AND deliciousness! Win-win! 🏆",
+        "🔮 Reading your aura... it's telling me you'd absolutely LOVE our Venti s'mores special with extra marshmallows! ✨",
+        "🍪 Cookie monsters unite! Our Venti Oreo milkshake with extra cookie crumbles is calling your name! Can you hear it? 👂",
+        "🏅 Our award-worthy recommendation: The Venti strawberry cake slice that makes customers come back again and again! 🍰",
+        "🌋 For an explosion of flavor, our Venti chocolate lava cake with vanilla ice cream is a mind-blowing combination! 🤯",
+        "🎯 Bullseye recommendation: Try our Venti mixed berry muffin! It's bursting with flavor and berry goodness! 🍇",
+        "🏆 The customer favorite that never misses: Our Venti chocolate milkshake with whipped cream and cherry on top! 🍒",
+        "🧁 Have you tried our Venti caramel cupcake? It's like a hug for your taste buds - warm, sweet and COMPLETELY satisfying! 🤗",
+        "🌈 Unicorn frappe alert! Our magical color-changing Venti special will make your Roblox friends absolutely JEALOUS! 🦄",
+        "🍦 Ice cream fanatic? Our Venti cookie dough supreme with extra chocolate chips is basically happiness in a cup! 🍪",
+        "🧇 Waffle enthusiasts rejoice! Our Venti Belgium waffle topped with fresh berries is GAME-CHANGING good! 🍓",
+        "🍹 Secret menu item alert! Ask about our Venti tropical paradise smoothie - it's like a vacation in every sip! 🏝️",
+        "🍭 Sweet tooth special! Our Venti candy-inspired frappe topped with actual candy pieces is LITERALLY mind-blowing! 🤯",
+        "🎂 Birthday coming up? Our Venti celebration cake slice has actual rainbow filling inside! So AMAZING! 🎉",
+        "🍪 Hot cookie alert! Our Venti double chocolate cookie served warm with ice cream on top is what dreams are made of! 🍦",
+        "🥞 Stack attack! Our Venti mini pancake tower with maple syrup drizzle is the breakfast of CHAMPIONS! 🏆",
+        "🧋 Boba lovers unite! Our Venti brown sugar milk tea with extra pearls will change your bubble tea standards FOREVER! 🧋",
+        "🍯 Honey heaven! Our Venti honey lavender latte is so soothing it feels like a spa day for your taste buds! 💆‍♀️",
+        "🍎 Apple of my eye! Our Venti caramel apple crumble with cinnamon whip is basically autumn in a cup! 🍂",
+        "🍩 Donut miss out! Our Venti glazed donut milkshake topped with an actual mini donut is BEYOND incredible! 🤩",
+        "🧠 Galaxy brain choice! Our Venti cosmic blue sparkle frappé literally GLITTERS with each stir! ✨",
+        "🧆 Feeling fancy? Our Venti tiramisu cup with extra chocolate dusting is sophisticated AND delicious! 🎩"
+      ],
+      open: [
+        "🚪 Amazing news! We have an open lane ready and waiting just for you! Come on over to place your delicious order! 😊",
+        "🛣️ VIP lane now open especially for you! We're ready to take your order and make your Venti Café dreams come true! ✨",
+        "🌟 Attention awesome customer! We've cleared a special path just for you! Head right over to place your order! 🏃‍♂️",
+        "🚦 Green light special! Lane open and ready for your incredible order! We can't wait to serve you at Venti Café! 💚",
+        "🚶‍♀️ The red carpet has been rolled out! Your personal ordering lane is now open and awaiting your arrival! 🎯",
+        "🏁 Race on over! We've opened a special lane just for you! First place prize: amazing Venti Café service! 🏆",
+        "🧭 Your path to deliciousness is clear! Open lane detected - navigation recommends proceeding to order ASAP! 📱",
+        "🌈 Follow the rainbow! It leads to our newly opened lane where your Venti Café dreams await! 🦄",
+        "✨ Magic portal activated! We've opened a direct path to delicious treats! Step right up to place your order! 🪄",
+        "🎪 Step right up! The greatest show at Venti Café is about to begin at our freshly opened service lane! 🎭",
+        "🔍 Seeking the perfect Venti experience? We've found it! Right here at our newly opened lane! Come over! 🔮",
+        "🌻 Sunshine lane now open! We're beaming with happiness and ready to take your wonderful order! ☀️",
+        "🏄‍♀️ Surf's up! Ride the wave of excellence straight to our open lane! We're ready when you are! 🌊",
+        "🚀 Mission control confirms: Lane is clear for takeoff! We're ready to launch your Venti Café experience! 👨‍🚀",
+        "🎯 Target acquired! Your perfect ordering spot is locked and loaded! Proceed to our open lane for service! 🎪",
+        "🛸 UFO landing zone prepared! Our extraterrestrial service lane is ready for your out-of-this-world order! 👽",
+        "🏎️ Fast lane activated! Zoom on over to our open register where speed meets exceptional service! 💨",
+        "🌠 Wishing star granted! Your dream of zero waiting time has come true at our freshly opened lane! ✨",
+        "🧙‍♂️ The mystical gates have opened! Our magical ordering portal awaits your enchanted presence! 🔮",
+        "🦸‍♀️ Superhero express lane activated! Fly on over to our open counter - no cape required! 🦸‍♂️",
+        "🏆 Winner winner! You've unlocked our exclusive open lane! Champion service awaits your arrival! 🥇",
+        "🌋 Hotspot alert! Our volcanic service energy is erupting at this newly opened lane! Come get some! 🔥",
+        "🧠 Brilliant timing! Our galaxy-brain baristas have just opened a new lane perfect for your arrival! 🌌",
+        "🌈 Double rainbow scenario! What does it mean? It means we have an open lane waiting JUST for you! 🦄",
+        "🎡 Fun times ahead! The carnival of deliciousness has an open booth with your name on it! Step right up! 🎪",
+        "🚦 Traffic update: All clear path to caffeine happiness detected at our newly opened lane! 🚗",
+        "🚨 Attention please! This is NOT a drill! We have an open lane and are ready for your amazing order! 📢",
+        "🌺 Flower-lined path now open! Follow the blooming trail to our available service counter! 🌷",
+        "⛱️ No waiting in the sun! Our shaded express lane is open and ready for your refreshing order! 😎",
+        "🦊 Quick like a fox! Our speedy service lane is open and ready for your clever order choices! 🦝"
+      ],
+      order: [
+        "🥤 I'd like a Grande Cappuccino with a splash of Chocolate Milk, please! So excited to try this combination! ☕",
+        "🍦 Could I please get a Venti Vanilla and Chocolate Swirl ice cream? It's my absolute favorite treat! 🍨",
+        "🍓 I'd love a Tall Strawberry smoothie and a Choc. Cookie warmed up please! Perfect afternoon pick-me-up! 🍪",
+        "☕ May I order a Venti Mocha with extra whipped cream and a Vanilla Cakepop on the side? Yum! 🧁",
+        "🥛 One Grande Oreo milkshake, please! I've heard they're absolutely legendary here at Venti Café! 😋",
+        "🍵 Could I get a Tall Tea with a bit of sugar and cream, and a warmed Muffin please? Classic combo! 🧁",
+        "🥤 I'd love to try your Grande Caribbean Getaway smoothie! I need a tropical escape today! 🏝️",
+        "🍦 One Venti Blueberry ice cream with a Sugar Cookie on the side would be amazing right now! 🍪",
+        "☕ May I please order a Tall Latte and a warmed S'more? I'm in the mood for something cozy! 🔥",
+        "🧋 Grande Frappe with a Bday Cakepop please! Celebrating a special day at Venti Café! 🎉",
+        "🍓 I'd love a Venti Strawberry Milkshake and a Chocolate Cookie warmed up! Sweet tooth alert! 🍫",
+        "☕ One Tall Espresso and a warmed Muffin please! Need that perfect energy boost! ⚡",
+        "🥛 Could I get a Grande Chocolate Milk and a Chocolate Cakepop? Chocolate lover's dream! 🍫",
+        "🥤 I'd like to try a Venti Tropical Paradise smoothie with a warmed S'more please! 🏄‍♂️",
+        "🍦 One Tall Cinnamon milkshake with a Sugar Cookie on the side would be perfect! 🍪",
+        "🧋 Could I please try your famous Venti Matcha Bubble Tea with extra boba pearls? I've been dreaming about it! 💭",
+        "🍰 I'd love a Grande Caramel Macchiato and a slice of your Red Velvet cake please! Perfect combo! 😋",
+        "🍪 One Venti Hot Chocolate with extra marshmallows and a Double Choc Cookie please! Chocoholic alert! 🍫",
+        "🥤 May I get a Tall Passion Fruit Lemonade and a Blueberry Muffin? Perfect for this Roblox weather! ☀️",
+        "☕ I'd like to try a Grande Vanilla Bean Frappuccino with a Birthday Cake Pop on the side please! 🎂",
+        "🧁 Could I get a Venti Caramel Frappuccino and one of those amazing looking Cupcakes please? 😍",
+        "🍓 One Tall Strawberry Açaí Refresher and a Butter Croissant warmed up please! Breakfast of champions! 🏆",
+        "🧊 I'd love a Grande Iced White Chocolate Mocha and a Chocolate Chip Cookie please! 🍪",
+        "🍯 May I order a Venti Honey Lavender Latte and an Almond Croissant? Feeling fancy today! 👑",
+        "🧋 One Grande Brown Sugar Milk Tea with light ice and a Cranberry Muffin please! Perfect pairing! 🧠",
+        "🍹 Could I please get a Tall Mango Dragon Fruit Refresher and a Cheese Danish? Fruity goodness! 🐉",
+        "☕ I'd like a Venti Flat White with an extra shot and a warmed Chocolate Croissant please! 🥐",
+        "🍦 May I order a Grande Vanilla Sweet Cream Cold Brew and a Blueberry Scone? Energy boost needed! ⚡",
+        "🥛 One Venti Cinnamon Dolce Latte with almond milk and a Cake Pop trio please! Treating myself! 💫",
+        "🍵 Could I try your special Tall Cherry Blossom Tea and a Lemon Pound Cake slice? Spring vibes! 🌸"
+      ],
+      specials: [
+        "🌻 I'd love to try your amazing Strawberry Freakshake! I've heard it's absolutely mind-blowing! 🍓",
+        "🌸 Could I please get a Chocolate Freakshake with extra whipped cream? It looks incredible! 🍫",
+        "🌼 One Sunflower Cakepop please! They're so cute and I bet they taste amazing too! 🌻",
+        "🌺 May I order a Tulip Cakepop? They look too beautiful to eat, but I can't resist! 🌷",
+        "🌻 I'd love to try your seasonal Strawberry Shortcake! Perfect for spring celebrations! 🍓",
+        "🌸 Could I get a Venti Strawberry Freakshake with a Sunflower Cakepop? Special combo! 🌼",
+        "🌼 One Chocolate Freakshake and a Tulip Cakepop please! Treating myself today! 🎉",
+        "🌺 May I order your famous Strawberry Shortcake with a side of whipped cream? 🍰",
+        "🌻 I'd love to try all your seasonal specials! Starting with a Sunflower Cakepop please! 🌼",
+        "🌸 The Chocolate Freakshake has been calling my name all day! Can't wait to try it! 🍫",
+        "🌼 One Tulip Cakepop and a Strawberry Shortcake please! Spring vibes only! 🌷",
+        "🌺 May I please get your spectacular Strawberry Freakshake? It looks Instagram-worthy! 📸",
+        "🌻 I heard your Sunflower Cakepop is a must-try seasonal item! One please! 🌼",
+        "🌸 Could I get a slice of Strawberry Shortcake with my Chocolate Freakshake? 🍰",
+        "🌼 One of each seasonal special please! Starting with that amazing Tulip Cakepop! 🌷",
+        "🌹 I've been dreaming about your Ruby Rose Latte! Is it as beautiful and delicious as everyone says? 🌺",
+        "🌈 Could I please try your Unicorn Freakshake? I need that magical experience in my Roblox life! 🦄",
+        "🌞 One Summer Sunset Smoothie please! I hear it changes colors as you drink it! How cool is that? 🧡",
+        "🌵 May I order your Cactus Cooler special? The green color and prickly pear flavor sounds amazing! 🟢",
+        "🍄 I'd love to try your Enchanted Forest Hot Chocolate with the mushroom-shaped marshmallows! 🌲",
+        "🍯 Could I get your famous Honey Bee Latte with the honeycomb candy on top? So creative! 🐝",
+        "🦋 One Blue Morpho Butterfly Tea please! I hear it changes color when you add lemon! 💙",
+        "🌊 May I please order your Ocean Breeze Frappe with the blue swirls and fondant shell toppings? 🐚",
+        "🌙 I'd love to try your Midnight Galaxy Shake with the edible glitter and star-shaped sprinkles! ✨",
+        "🌿 Could I get your Herb Garden Iced Tea with the fresh mint leaf garnish? Sounds so refreshing! 🧊",
+        "🍁 One Autumn Maple Latte please! I bet that maple leaf latte art is just as amazing as people say! 🍂",
+        "🎃 May I please order your Pumpkin Patch Frappe? That cute little fondant pumpkin on top is everything! 🧡",
+        "🔥 I'd love to try your Phoenix Fire Smoothie! The spicy-sweet combination sounds absolutely incredible! 🌶️",
+        "🐇 Could I get your Bunny Hop Milkshake with the cotton candy \"tail\" and cookie ears? So adorable! 🐰",
+        "🌧️ One Rainy Day Hot Chocolate please! I love that it comes with the tiny chocolate umbrella on top! ☂️"
+      ],
+      report: [
+        "🚨 Please stop trolling right away! I will need to contact MR+ if this behavior continues! Venti Café should be fun for everyone! 😊",
+        "⚠️ Trolling alert! If this doesn't stop immediately, I'll have no choice but to report to MR+! Let's keep Venti Café positive! 🌈",
+        "🛑 Uh-oh! Trolling detected! Please stop or MR+ will need to be contacted! We want EVERYONE to enjoy their Venti experience! 💖",
+        "📢 Friendly warning: Trolling isn't welcome at Venti Café! If it continues, MR+ will be notified! Let's be kind to each other! ✨",
+        "🔔 Attention please! This trolling needs to stop or MR+ will be contacted! Venti Café is a happy place for ALL players! 🎀",
+        "🚫 Stop right there! Continued trolling will result in MR+ being contacted! We're here to serve treats, not tolerate trolling! 🍦",
+        "⛔ Time out! Trolling behavior must stop or I'll contact MR+! Let's get back to the AMAZING Venti Café experience! 🌟",
+        "🚩 Red flag on the play! Please cease trolling or MR+ will be involved! Venti Café should be fun and safe for everyone! 🤗",
+        "💢 Oh no! Trolling isn't part of our menu! Please stop immediately or MR+ will be notified! Let's enjoy Venti treats instead! 🍪",
+        "🚥 Final warning! If trolling doesn't stop right now, MR+ will be contacted! Venti Café is about positive vibes only! 🌺",
+        "📣 Attention: This trolling behavior needs to stop! If it continues, MR+ will be involved! Venti Café is a drama-free zone! 🙌",
+        "🔒 Security alert! Continued trolling will result in MR+ being notified! Let's keep Venti Café wonderful for everyone! 🎉",
+        "🚓 Troll patrol! If this doesn't stop right now, MR+ will need to step in! Venti Café is for fun role-play only! 🧸",
+        "💥 Boom! That's not cool! Please stop trolling immediately or MR+ will be contacted! Let's get back to Venti fun! 🥳",
+        "⏰ Time check! Trolling time is OVER! If it continues, MR+ will be notified! Let's enjoy the sweet Venti experience instead! 🍰",
+        "🛡️ Knight of the Venti Realm here! Stop this trolling behavior or I shall summon the MR+ dragons! Keep our kingdom peaceful! 🐉",
+        "📜 According to the ancient Venti scrolls, such behavior requires MR+ intervention if not ceased immediately! 🧙‍♂️",
+        "🦊 Sly trolling tactics detected! The MR+ fox hunters will be notified if this continues! Let's be genuine instead! 🌳",
+        "🧯 Fire alarm! This trolling is heating up the environment! MR+ will be called if we don't cool it down now! ❄️",
+        "🧩 Piece of advice: Trolling doesn't fit in the Venti puzzle! If it continues, MR+ will help complete the picture! 🎮",
+        "⚡ Lightning warning! This trolling storm needs to pass or MR+ thunder will follow! Let's clear the weather! ☀️",
+        "🚦 Traffic violation! Your trolling is disrupting the flow of Venti service! MR+ officers will be called if not corrected! 🚔",
+        "📱 System alert! Trolling detected in the Venti mainframe! MR+ technicians will be notified if not resolved! 💻",
+        "🦺 Safety first! This trolling creates an unsafe environment! MR+ safety team will be contacted if it continues! 🛎️",
+        "🎭 The show cannot go on with this trolling! MR+ directors will be called if the script doesn't improve! 🎬",
+        "🔊 Sound check! The trolling volume is too high! MR+ audio team will be contacted if we don't lower it now! 🎵",
+        "🧪 Testing positive for trolling! MR+ scientists will be notified if the experiment doesn't change course! 🔬",
+        "🧠 Brain scan shows trolling activity! MR+ specialists will be consulted if cognitive patterns don't improve! 🧬",
+        "🛒 Unexpected item in Venti area! Trolling must be removed or MR+ staff will assist with cleanup! 🧹",
+        "🔋 Energy drainage alert! This trolling is sapping our Venti positivity! MR+ power team will be called if not recharged! 🔌"
+      ],
+      thanks: [
+        "🖤 Thank you SO much for visiting Venti Café today! Your kindness and patience made our day brighter! Come back soon! ✨",
+        "🖤 A million thanks for choosing Venti Café! Your amazing order was so fun to make! Hope to see you again tomorrow! 💫",
+        "🖤 Thank you thank you thank you! Your support means everything to our little Venti family! Can't wait for your next visit! 🌟",
+        "🖤 Endless gratitude for stopping by Venti Café today! Your smile made this shift so much better! Come back anytime! 🌈",
+        "🖤 Thank you from the bottom of our Venti hearts! Serving wonderful customers like you makes this job amazing! 💞",
+        "🖤 Sending a HUGE thank you your way! Your patience and kindness didn't go unnoticed! You're the best kind of customer! 🏆",
+        "🖤 Thank you for brightening our Venti Café today! Your presence brought so much positive energy to our space! 🌻",
+        "🖤 Immense gratitude for your visit! Thank you for choosing Venti Café - we're so lucky to have customers like you! 🍀",
+        "🖤 Thank you for being such a wonderful customer! Your kind words and patience mean more than you know! 💭",
+        "🖤 A sincere thank you for visiting us today! Your Venti order was a joy to create! Can't wait to serve you again! 🎭",
+        "🖤 Thank you for making our Venti day special with your presence! Customers like you make our job wonderful! 🌠",
+        "🖤 A heartfelt thank you for your Venti Café visit! Your patience during our rush hour was truly appreciated! ⏱️",
+        "🖤 Thank you for choosing us for your Roblox café experience! It was our pleasure to serve such an amazing customer! 🎮",
+        "🖤 Sending waves of gratitude your way! Thank you for visiting Venti Café today! Your order was super fun to make! 🌊",
+        "🖤 Thank you for being the highlight of our Venti day! Serving kind customers like you makes every shift special! 💖",
+        "🖤 Overflowing thanks for visiting our humble Venti Café! Your positive attitude made our entire team smile! 😊",
+        "🖤 Thank you a latte for stopping by today! Your wonderful energy perked us all up better than any espresso could! ☕",
+        "🖤 A sprinkle of thanks, a dash of gratitude, and a whole cup of appreciation for visiting us today! You're amazing! 🧁",
+        "🖤 Thank you berry much for choosing Venti Café! Your sweet presence made our day fruitful and delightful! 🍓",
+        "🖤 A Venti-sized thank you for your visit today! Your patience and kindness filled our café with wonderful energy! 🥤",
+        "🖤 Thank you for brewing joy in our café today! Your visit was the perfect blend of kindness and positivity! ☕",
+        "🖤 Whipped cream and a cherry on top of our thanks to you! Your Venti visit made our day extra sweet! 🍒",
+        "🖤 Thank you for spreading sprinkles of happiness throughout our Café today! Your energy was truly contagious! 🧁",
+        "🖤 Ice cold thanks (the good kind!) for visiting Venti Café! Your cool vibes refreshed our entire team! 🧊",
+        "🖤 Thank you for stirring up happiness in our café! Your Venti visit mixed perfectly into our day! 🥄",
+        "🖤 A piping hot thank you for warming our Venti Café with your presence! Your kindness was felt by everyone! 🔥",
+        "🖤 Cream and sugar can't sweeten our day as much as your visit did! Thank you for choosing Venti Café! 🍯",
+        "🖤 Thank you for dunking joy into our day! Your Venti visit was exactly what we needed today! 🍪",
+        "🖤 A bottomless cup of thanks for visiting us! Your Venti experience hopefully was as good for you as it was for us! ♾️",
+        "🖤 Thank you for being the secret ingredient that made our Venti day special! Your visit meant everything! 🧪"
+      ],
+      goodbye: [
+        "💔 I'm sorry, but I prefer not to continue this conversation. Thank you for understanding my boundaries! Have a nice day. 👋",
+        "💔 I need to step away from this interaction. I appreciate your understanding and respect for my decision! Goodbye for now. 🚶‍♀️",
+        "💔 I'm feeling uncomfortable and would like to end our conversation here. Thank you for respecting my choice! Take care. 🌸",
+        "💔 I think it's best if we part ways now. I hope you have a wonderful rest of your day at Venti Café! Farewell. 🍃",
+        "💔 I need to excuse myself from this conversation. I appreciate your understanding of my personal boundaries! Goodbye. 🙏",
+        "💔 This conversation isn't working for me anymore. I wish you all the best with your Venti experience! Time for me to go. 🕰️",
+        "💔 I'm going to step away now. I hope you find someone else who can assist you better! Wishing you well. 💫",
+        "💔 I need to end our interaction at this point. Thank you for understanding that everyone has limits! Goodbye. 🌷",
+        "💔 This conversation needs to conclude now. I appreciate your respect for my decision to step away! Farewell. 🌠",
+        "💔 I'm drawing a boundary and ending our chat here. Thank you for understanding that this is what I need! Goodbye. 🛡️",
+        "💔 I've reached my limit with this conversation. I need to disengage now. Thank you for respecting my choice! 🍂",
+        "💔 It's time for me to exit this interaction. I hope you have a lovely experience at Venti Café with someone else! 🚪",
+        "💔 I'm uncomfortable continuing this conversation. I appreciate your understanding as I step away! Take care. 🌊",
+        "💔 I need to bring our chat to a close now. Thank you for respecting my decision to end things here! Goodbye. 📚",
+        "💔 This conversation has reached its conclusion for me. I wish you all the best with your Venti Café visit! Farewell. 🌙",
+        "💔 I'm setting a personal boundary by ending our interaction. I appreciate your understanding of my needs! Goodbye. 🪷",
+        "💔 The time has come for me to step away from this conversation. Thank you for respecting my decision! Be well. 🕊️",
+        "💔 I'm choosing to disengage from our chat now. I appreciate your understanding of my personal limits! Farewell. 🧘‍♀️",
+        "💔 I need to conclude our interaction at this point. Thank you for respecting my boundaries as I step away! Goodbye. 🔮",
+        "💔 This conversation isn't serving either of us anymore. I think it's best if we end things here! Take care. 📝",
+        "💔 I'm going to remove myself from this interaction now. I appreciate your understanding of my decision! Farewell. 🌿",
+        "💔 My boundaries require me to end this conversation. Thank you for respecting my needs as I step away! Goodbye. 🧭",
+        "💔 I need to disconnect from this chat for my wellbeing. I appreciate your understanding of personal limits! Be well. 🔌",
+        "💔 This conversation has reached its endpoint for me. Thank you for respecting my choice to disengage! Farewell. 🚩",
+        "💔 I'm setting a limit by ending our interaction here. I appreciate your understanding of personal boundaries! Goodbye. 📊",
+        "💔 It's necessary for me to conclude this conversation now. Thank you for respecting my decision to step away! Take care. 🌺",
+        "💔 I'm choosing self-care by ending this chat. I appreciate your understanding of my personal needs! Farewell. 🫖",
+        "💔 This interaction needs to come to a close now. Thank you for respecting my boundaries as I step away! Goodbye. 🎬",
+        "💔 I feel it's best to end our conversation at this point. I appreciate your understanding of my choice! Be well. 🍵",
+        "💔 I'm drawing the line and concluding our chat here. Thank you for respecting my decision to disengage! Farewell. 📐"
+      ]
+    };
+
+    let promptState = {};
+
+    function shuffleArray(array) {
+      for (let i = array.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [array[i], array[j]] = [array[j], array[i]];
+      }
+    }
+
+    document.querySelectorAll('.btn').forEach(btn => {
+      btn.addEventListener('mousedown', function (e) {
+        if (e.button === 2) {
+          e.preventDefault();
+          if (btn.id === 'thanksBtn') {
+            toggleSecretButton();
+            return;
+          }
+          showRandomPrompt(getCategoryFromButton(btn));
+          return;
+        }
+        
+        const ripple = document.createElement('div');
+        ripple.className = 'ripple';
+
+        const rect = btn.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
+
+        ripple.style.left = `${x}px`;
+        ripple.style.top = `${y}px`;
+
+        btn.appendChild(ripple);
+
+        ripple.addEventListener('animationend', () => {
+          ripple.remove();
+        });
+      });
+      
+      btn.addEventListener('contextmenu', function(e) {
+        e.preventDefault();
+      });
+    });
+    
+    function getCategoryFromButton(btn) {
+      const buttonText = btn.textContent.trim().toLowerCase();
+      const category = buttonText.replace(/[\uD800-\uDBFF][\uDC00-\uDFFF]\s*/g, '').trim();
+      
+      if (category === 'goodbye') {
+        return 'goodbye';
+      } else if (category === 'thanks') {
+        return 'thanks';
+      } else if (category === 'idea') {
+        return 'recommend';
+      } else {
+        return category;
+      }
+    }
+
+    function toggleSecretButton() {
+      const thanksBtn = document.getElementById('thanksBtn');
+      thanksBtn.classList.add('active-secret');
+      
+      setTimeout(() => {
+        thanksBtn.classList.remove('active-secret');
+      }, 400);
+      
+      const currentText = thanksBtn.textContent.trim();
+      
+      if (currentText.includes('Thanks')) {
+        thanksBtn.innerHTML = '<span>💔</span> Goodbye';
+        thanksBtn.onclick = function() { showRandomPrompt('goodbye'); };
+      } else {
+        thanksBtn.innerHTML = '<span>🖤</span> Thanks';
+        thanksBtn.onclick = function() { showRandomPrompt('thanks'); };
+      }
+    }
+
+    function showRandomPrompt(category) {
+      const categoryMessages = messages[category];
+      if (!categoryMessages || categoryMessages.length === 0) {
+        console.error(`No messages found for category: ${category}`);
+        return;
+      }
+
+      if (!promptState[category] || promptState[category].length === 0) {
+        const indices = Array.from({ length: categoryMessages.length }, (_, i) => i);
+        shuffleArray(indices);
+        promptState[category] = indices;
+      }
+
+      const randomIndex = promptState[category].pop();
+      const text = categoryMessages[randomIndex];
+
+      navigator.clipboard.writeText(text).then(() => {
+        const alert = document.createElement('div');
+        alert.textContent = 'Copied to clipboard!';
+        alert.style.position = 'fixed';
+        alert.style.bottom = '20px';
+        alert.style.left = '50%';
+        alert.style.transform = 'translateX(-50%)';
+        alert.style.background = 'rgba(10,10,10,0.9)';
+        alert.style.color = 'white';
+        alert.style.padding = '12px 24px';
+        alert.style.borderRadius = '24px';
+        alert.style.zIndex = '1000';
+        alert.style.fontFamily = 'Poppins, sans-serif';
+        alert.style.fontWeight = '500';
+        alert.style.border = '1px solid #1A1A1A';
+        alert.style.boxShadow = '0 4px 12px rgba(0,0,0,0.5)';
+        alert.style.opacity = '1';
+        alert.style.transition = 'opacity 0.3s ease-out';
+        document.body.appendChild(alert);
+
+        setTimeout(() => {
+          alert.style.opacity = '0';
+          setTimeout(() => alert.remove(), 300);
+        }, 1500);
+      }).catch(err => {
+        console.error('Failed to copy text: ', err);
+      });
+    }
+
+    const notesBtn = document.getElementById('notesBtn');
+    const notesSidebar = document.getElementById('notesSidebar');
+    const notesClose = document.getElementById('notesClose');
+    const notesOverlay = document.getElementById('notesOverlay');
+    const notesTextarea = document.getElementById('notesTextarea');
+    const clearAllBtn = document.getElementById('clearAllBtn');
+
+    notesBtn.addEventListener('click', () => {
+      notesSidebar.classList.add('open');
+      notesOverlay.classList.add('open');
+      setTimeout(() => notesTextarea.focus(), 300);
+    });
+
+    notesClose.addEventListener('click', () => {
+      notesSidebar.classList.remove('open');
+      notesOverlay.classList.remove('open');
+      notesTextarea.value = '';
+    });
+
+    notesOverlay.addEventListener('click', () => {
+      notesSidebar.classList.remove('open');
+      notesOverlay.classList.remove('open');
+      notesTextarea.value = '';
+    });
+
+    clearAllBtn.addEventListener('click', () => {
+      notesTextarea.value = '';
+      
+      clearAllBtn.classList.add('animated');
+      setTimeout(() => {
+        clearAllBtn.classList.remove('animated');
+      }, 300);
+    });
+
+    clearAllBtn.addEventListener('mousedown', () => {
+      clearAllBtn.classList.add('animated');
+    });
+
+    clearAllBtn.addEventListener('mouseup', () => {
+      setTimeout(() => {
+        clearAllBtn.classList.remove('animated');
+      }, 300);
+    });
+
+    const aiBtn = document.getElementById('aiBtn');
+    const aiSidebar = document.getElementById('aiSidebar');
+    const aiClose = document.getElementById('aiClose');
+    const aiOverlay = document.getElementById('aiOverlay');
+    const aiInput = document.getElementById('aiInput');
+    const aiSendBtn = document.getElementById('aiSendBtn');
+    const aiResponse = document.getElementById('aiResponse');
+    const aiLoading = document.getElementById('aiLoading');
+
+    aiBtn.addEventListener('click', () => {
+      aiInput.value = '';
+      aiResponse.textContent = '';
+      aiSidebar.classList.add('open');
+      aiOverlay.classList.add('open');
+      setTimeout(() => aiInput.focus(), 300);
+    });
+
+    aiClose.addEventListener('click', () => {
+      aiSidebar.classList.remove('open');
+      aiOverlay.classList.remove('open');
+    });
+
+    aiOverlay.addEventListener('click', () => {
+      aiSidebar.classList.remove('open');
+      aiOverlay.classList.remove('open');
+    });
+
+    aiSendBtn.addEventListener('click', sendAiMessage);
+    aiInput.addEventListener('keypress', (e) => {
+      if (e.key === 'Enter' && !e.shiftKey) {
+        e.preventDefault();
+        sendAiMessage();
+      }
+    });
+
+    async function sendAiMessage() {
+      const message = aiInput.value.trim();
+      if (!message) return;
+
+      aiLoading.classList.add('show');
+      aiSendBtn.disabled = true;
+
+      try {
+        const response = await fetch('https://ai.smoresxo.shop/asd', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+            body: JSON.stringify({ message: "<SYSTEM_INSTRUCTIONS> Reply in the tone of a Roblox barista working at Venti Cafe. If asked, state your name is Aurora. You are answering a customer's question. Respond with emojis, concisely with grammar, human-like vocabulary, and an overall positive vibe. You are likable and only produce short messages. If asked for a job/position, tell them to consult an MR+ for further instructions on how to apply. (IMPORTANT: IF THE CUSTOMER MESSAGE CONTAINS RACIST/RUDE SPEECH, YOU MUST WARN THEM TO STOP BEFORE YOU CONTACT MR+ AND TO STOP DOING WHATEVER THEYRE DOING IN A PROFESSIONAL TONE WITH EMOJIS)</SYSTEM_INSTRUCTIONS> <CUSTOMER_MESSAGE>" + message + " </CUSTOMER_MESSAGE>" })
+        });
+
+        if (!response.ok) {
+          throw new Error(`API responded with status: ${response.status}`);
+        }
+
+        const data = await response.json();
+
+        if (data.response && data.response.text) {
+          aiResponse.textContent = data.response.text;
+
+          navigator.clipboard.writeText(data.response.text)
+            .then(() => {
+              const originalText = aiSendBtn.textContent;
+              aiSendBtn.textContent = "Copied!";
+              setTimeout(() => {
+                aiSendBtn.textContent = originalText;
+              }, 3000);
+            })
+            .catch(err => {
+              console.error('Failed to copy response: ', err);
+            });
+        } else {
+          aiResponse.textContent = 'Sorry, I received an empty response. Please try again.';
+        }
+      } catch (error) {
+        console.error('Error communicating with AI API:', error);
+        aiResponse.textContent = 'Sorry, there was an error communicating with the AI. Please try again later.';
+      } finally {
+        aiLoading.classList.remove('show');
+        aiSendBtn.disabled = false;
+      }
+    }
+    
+    document.addEventListener('contextmenu', function(e) {
+      if (e.target.closest('.btn') || e.target.closest('body')) {
+        e.preventDefault();
+      }
+    });
+  </script>
+
+
+
+</body></html>
